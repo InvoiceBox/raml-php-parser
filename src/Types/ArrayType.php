@@ -68,9 +68,9 @@ class ArrayType extends Type
     {
         $type = parent::createFromArray($name, $data);
         \assert($type instanceof self);
-        $pos = \strpos($type->getType(), '[]');
+        $pos = \mb_strpos($type->getType(), '[]');
         if ($pos !== false) {
-            $type->setItems(\substr($type->getType(), 0, $pos));
+            $type->setItems(\mb_substr($type->getType(), 0, $pos));
         }
         $type->setType('array');
 
@@ -106,7 +106,7 @@ class ArrayType extends Type
     /**
      * @param bool $uniqueItems
      */
-    public function setUniqueItems($uniqueItems)
+    public function setUniqueItems($uniqueItems): void
     {
         $this->uniqueItems = $uniqueItems;
     }
@@ -114,7 +114,7 @@ class ArrayType extends Type
     /**
      * @param string $items
      */
-    public function setItems($items)
+    public function setItems($items): void
     {
         $this->items = $items;
     }
@@ -136,7 +136,7 @@ class ArrayType extends Type
     /**
      * @param int $minItems
      */
-    public function setMinItems($minItems)
+    public function setMinItems($minItems): void
     {
         $this->minItems = $minItems;
     }
@@ -144,12 +144,12 @@ class ArrayType extends Type
     /**
      * @param int $maxItems
      */
-    public function setMaxItems($maxItems)
+    public function setMaxItems($maxItems): void
     {
         $this->maxItems = $maxItems;
     }
 
-    public function validate($value)
+    public function validate($value): void
     {
         parent::validate($value);
 
@@ -176,7 +176,7 @@ class ArrayType extends Type
         }
     }
 
-    private function validateScalars($value)
+    private function validateScalars($value): void
     {
         $typeObject = ApiDefinition::determineType('item', ['type' => $this->items]);
 
@@ -192,7 +192,7 @@ class ArrayType extends Type
         }
     }
 
-    private function validateObjects($value)
+    private function validateObjects($value): void
     {
         foreach ($value as $valueItem) {
             $this->getItems()->validate($valueItem);

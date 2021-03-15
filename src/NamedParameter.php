@@ -15,129 +15,129 @@ class NamedParameter implements ArrayInstantiationInterface
     /**
      * @var string
      */
-    const TYPE_ANY = 'any';
+    public const TYPE_ANY = 'any';
 
     /**
      * @var string
      */
-    const TYPE_STRING = 'string';
+    public const TYPE_STRING = 'string';
 
     /**
      * @var string
      */
-    const TYPE_NUMBER = 'number';
+    public const TYPE_NUMBER = 'number';
 
     /**
      * @var string
      */
-    const TYPE_INTEGER = 'integer';
+    public const TYPE_INTEGER = 'integer';
 
     /**
      * @var string
      */
-    const TYPE_DATE = 'date';
+    public const TYPE_DATE = 'date';
 
     /**
      * @var string
      */
-    const TYPE_BOOLEAN = 'boolean';
+    public const TYPE_BOOLEAN = 'boolean';
 
     /**
      * @var string
      */
-    const TYPE_FILE = 'file';
+    public const TYPE_FILE = 'file';
 
     /**
      * @var string
      */
-    const TYPE_DATE_ONLY = 'date-only';
+    public const TYPE_DATE_ONLY = 'date-only';
 
     /**
      * @var string
      */
-    const TYPE_TIME_ONLY = 'time-only';
+    public const TYPE_TIME_ONLY = 'time-only';
 
     /**
      * @var string
      */
-    const TYPE_DATETIME_ONLY = 'datetime-only';
+    public const TYPE_DATETIME_ONLY = 'datetime-only';
 
     /**
      * @var string
      */
-    const TYPE_DATETIME = 'datetime';
+    public const TYPE_DATETIME = 'datetime';
 
     /**
      * @var string
      */
-    const TYPE_ARRAY = 'array';
+    public const TYPE_ARRAY = 'array';
 
     // Validation exception codes
 
     /**
      * @var int
      */
-    const VAL_NOTBOOLEAN = 1;
+    public const VAL_NOTBOOLEAN = 1;
 
     /**
      * @var int
      */
-    const VAL_NOTDATE = 2;
+    public const VAL_NOTDATE = 2;
 
     /**
      * @var int
      */
-    const VAL_NOTSTRING = 3;
+    public const VAL_NOTSTRING = 3;
 
     /**
      * @var int
      */
-    const VAL_NOTINT = 4;
+    public const VAL_NOTINT = 4;
 
     /**
      * @var int
      */
-    const VAL_NOTNUMBER = 5;
+    public const VAL_NOTNUMBER = 5;
 
     /**
      * @var int
      */
-    const VAL_NOTFILE = 6; // Unused
+    public const VAL_NOTFILE = 6; // Unused
 
     /**
      * @var int
      */
-    const VAL_ISREQUIRED = 7;
+    public const VAL_ISREQUIRED = 7;
 
     /**
      * @var int
      */
-    const VAL_TOOSHORT = 8;
+    public const VAL_TOOSHORT = 8;
 
     /**
      * @var int
      */
-    const VAL_TOOLONG = 9;
+    public const VAL_TOOLONG = 9;
 
     /**
      * @var int
      */
-    const VAL_NUMLESSTHAN = 10;
+    public const VAL_NUMLESSTHAN = 10;
 
     /**
      * @var int
      */
-    const VAL_GREATERTHAN = 11;
+    public const VAL_GREATERTHAN = 11;
 
     /**
      * @var int
      */
-    const VAL_PATTERNFAIL = 12;
+    public const VAL_PATTERNFAIL = 12;
 
     /**
      * @var int
      */
-    const VAL_NOTENUMVALUE = 13;
+    public const VAL_NOTENUMVALUE = 13;
 
     /**
      * Valid types
@@ -278,8 +278,6 @@ class NamedParameter implements ArrayInstantiationInterface
      * A default value used by the server if not provided
      *
      * @see http://raml.org/spec.html#default
-     *
-     * @var mixed
      */
     private $default;
 
@@ -437,7 +435,7 @@ class NamedParameter implements ArrayInstantiationInterface
      *
      * @param string $displayName
      */
-    public function setDisplayName($displayName)
+    public function setDisplayName($displayName): void
     {
         $this->displayName = $displayName;
     }
@@ -459,7 +457,7 @@ class NamedParameter implements ArrayInstantiationInterface
      *
      * @param string $description
      */
-    public function setDescription($description)
+    public function setDescription($description): void
     {
         $this->description = $description;
     }
@@ -483,7 +481,7 @@ class NamedParameter implements ArrayInstantiationInterface
      *
      * @throws \Exception
      */
-    public function setType($type = 'string')
+    public function setType($type = 'string'): void
     {
         if (!\in_array($type, $this->validTypes, true)) {
             throw new InvalidQueryParameterTypeException($type, $this->validTypes);
@@ -506,9 +504,8 @@ class NamedParameter implements ArrayInstantiationInterface
 
     /**
      * Set the allowed values
-     *
      */
-    public function setEnum(array $enum)
+    public function setEnum(array $enum): void
     {
         $this->enum = $enum;
     }
@@ -530,7 +527,7 @@ class NamedParameter implements ArrayInstantiationInterface
      *
      * @param string $validationPattern
      */
-    public function setValidationPattern($validationPattern)
+    public function setValidationPattern($validationPattern): void
     {
         $this->validationPattern = $validationPattern;
     }
@@ -554,7 +551,7 @@ class NamedParameter implements ArrayInstantiationInterface
      *
      * @throws \Exception
      */
-    public function setMinLength($minLength)
+    public function setMinLength($minLength): void
     {
         if ($this->type !== self::TYPE_STRING) {
             throw new \Exception('minLength can only be set on type "string"');
@@ -582,7 +579,7 @@ class NamedParameter implements ArrayInstantiationInterface
      *
      * @throws \Exception
      */
-    public function setMaxLength($maxLength)
+    public function setMaxLength($maxLength): void
     {
         if ($this->type !== self::TYPE_STRING) {
             throw new \Exception('maxLength can only be set on type "string"');
@@ -610,7 +607,7 @@ class NamedParameter implements ArrayInstantiationInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function setMinimum($minimum)
+    public function setMinimum($minimum): void
     {
         if (!\in_array($this->type, [self::TYPE_INTEGER, self::TYPE_NUMBER], true)) {
             throw new \InvalidArgumentException('minimum can only be set on type "integer" or "number');
@@ -638,7 +635,7 @@ class NamedParameter implements ArrayInstantiationInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function setMaximum($maximum)
+    public function setMaximum($maximum): void
     {
         if (!\in_array($this->type, [self::TYPE_INTEGER, self::TYPE_NUMBER], true)) {
             throw new \InvalidArgumentException('maximum can only be set on type "integer" or "number');
@@ -654,11 +651,11 @@ class NamedParameter implements ArrayInstantiationInterface
      *
      * @param int $position
      *
-     * @return string
+     * @return string|null
      */
     public function getExample($position = 0)
     {
-        return $this->examples[$position];
+        return $this->examples[$position] ?? null;
     }
 
     /**
@@ -676,7 +673,7 @@ class NamedParameter implements ArrayInstantiationInterface
      *
      * @param string $example
      */
-    public function addExample($example)
+    public function addExample($example): void
     {
         $this->examples[] = $example;
     }
@@ -698,7 +695,7 @@ class NamedParameter implements ArrayInstantiationInterface
      *
      * @param bool $repeat
      */
-    public function setRepeat($repeat)
+    public function setRepeat($repeat): void
     {
         $this->repeat = (bool) $repeat;
     }
@@ -720,7 +717,7 @@ class NamedParameter implements ArrayInstantiationInterface
      *
      * @param bool $required
      */
-    public function setRequired($required)
+    public function setRequired($required): void
     {
         $this->required = (bool) $required;
     }
@@ -729,7 +726,6 @@ class NamedParameter implements ArrayInstantiationInterface
 
     /**
      * Return the default
-     *
      */
     public function getDefault()
     {
@@ -747,7 +743,7 @@ class NamedParameter implements ArrayInstantiationInterface
     /**
      * @param string $format
      */
-    public function setFormat($format)
+    public function setFormat($format): void
     {
         $this->format = $format;
     }
@@ -758,7 +754,7 @@ class NamedParameter implements ArrayInstantiationInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function setDefault($default)
+    public function setDefault($default): void
     {
         switch ($this->type) {
             case self::TYPE_STRING:
@@ -806,7 +802,7 @@ class NamedParameter implements ArrayInstantiationInterface
      * @param mixed $param The value of the parameter to validate
      * @throws ValidationException The code corresponds to the error that occurred.
      */
-    public function validate($param)
+    public function validate($param): void
     {
         /*
          * If we don't have a value to validate, check if it's required.
@@ -851,7 +847,7 @@ class NamedParameter implements ArrayInstantiationInterface
                  * @link http://raml.org/spec.html#minlength
                  */
                 $minLength = $this->getMinLength();
-                if (!empty($minLength) && \strlen($param) < $minLength) {
+                if (!empty($minLength) && \mb_strlen($param) < $minLength) {
                     throw new ValidationException(
                         $this->getKey() . ' must be at least ' . $minLength . ' characters long',
                         static::VAL_TOOSHORT
@@ -864,7 +860,7 @@ class NamedParameter implements ArrayInstantiationInterface
                  * @link http://raml.org/spec.html#maxlength
                  */
                 $maxLength = $this->getMaxLength();
-                if (!empty($maxLength) && \strlen($param) > $maxLength) {
+                if (!empty($maxLength) && \mb_strlen($param) > $maxLength) {
                     throw new ValidationException(
                         $this->getKey() . ' must be no more than ' . $maxLength . ' characters long',
                         static::VAL_TOOLONG

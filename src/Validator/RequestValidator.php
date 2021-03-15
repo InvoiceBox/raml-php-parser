@@ -30,13 +30,13 @@ class RequestValidator
     /**
      * @throws Exception
      */
-    public function validateRequest(RequestInterface $request)
+    public function validateRequest(RequestInterface $request): void
     {
         $this->assertMediaTypes($request);
         $this->assertNoMissingParameters($request);
         $this->assertValidParameters($request);
 
-        if (!\in_array(\strtolower($request->getMethod()), ['get', 'delete'], true)) {
+        if (!\in_array(\mb_strtolower($request->getMethod()), ['get', 'delete'], true)) {
             $this->assertValidBody($request);
         }
     }
@@ -44,7 +44,7 @@ class RequestValidator
     /**
      * @throws ValidatorRequestException
      */
-    private function assertNoMissingParameters(RequestInterface $request)
+    private function assertNoMissingParameters(RequestInterface $request): void
     {
         $method = $request->getMethod();
         $path = $request->getUri()->getPath();
@@ -59,7 +59,7 @@ class RequestValidator
 
         throw new ValidatorRequestException(\sprintf(
             'Missing request parameters required by the schema for `%s %s`: %s',
-            \strtoupper($method),
+            \mb_strtoupper($method),
             $path,
             \implode(', ', \array_keys($missingParameters))
         ));
@@ -68,7 +68,7 @@ class RequestValidator
     /**
      * @throws ValidatorRequestException
      */
-    private function assertValidParameters(RequestInterface $request)
+    private function assertValidParameters(RequestInterface $request): void
     {
         $method = $request->getMethod();
         $path = $request->getUri()->getPath();
@@ -89,7 +89,7 @@ class RequestValidator
             } catch (ValidationException $exception) {
                 $message = \sprintf(
                     'Request parameter does not match schema for `%s %s`: %s',
-                    \strtoupper($method),
+                    \mb_strtoupper($method),
                     $path,
                     $exception->getMessage()
                 );
@@ -99,7 +99,7 @@ class RequestValidator
         }
     }
 
-    private function assertValidBody(RequestInterface $request)
+    private function assertValidBody(RequestInterface $request): void
     {
         $method = $request->getMethod();
         $path = $request->getUri()->getPath();
@@ -113,7 +113,7 @@ class RequestValidator
         if ($schemaBody->getValidator()->getErrors()) {
             $message = \sprintf(
                 'Request body for %s %s with content type %s does not match schema: %s',
-                \strtoupper($method),
+                \mb_strtoupper($method),
                 $path,
                 $contentType,
                 $this->getTypeValidationErrorsAsString($schemaBody->getValidator()->getErrors())
@@ -143,7 +143,7 @@ class RequestValidator
         }, $errors));
     }
 
-    private function assertMediaTypes(RequestInterface $request)
+    private function assertMediaTypes(RequestInterface $request): void
     {
         $method = $request->getMethod();
         $path = $request->getUri()->getPath();

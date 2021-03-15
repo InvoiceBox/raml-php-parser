@@ -1,0 +1,177 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Cannot call method getResolvedObject\\(\\) on Raml\\\\Type\\|void\\.$#"
+			count: 2
+			path: ../../../tests/ApiDefinitionTest.php
+
+		-
+			message: "#^Cannot call method getPropertyByName\\(\\) on Raml\\\\Type\\|void\\.$#"
+			count: 6
+			path: ../../../tests/ApiDefinitionTest.php
+
+		-
+			message: "#^Cannot call method getMethod\\(\\) on resource\\.$#"
+			count: 6
+			path: ../../../tests/ApiDefinitionTest.php
+
+		-
+			message: "#^Method PHPUnit\\\\Framework\\\\Assert\\:\\:assertContainsEquals\\(\\) invoked with 5 parameters, 2\\-3 required\\.$#"
+			count: 1
+			path: ../../../tests/ApiDefinitionTest.php
+
+		-
+			message: "#^Function assertValidationFailedWithErrors\\(\\) has an unused variable \\$message\\.$#"
+			count: 1
+			path: ../../../tests/ApiDefinitionTest.php
+
+		-
+			message: "#^Function assertValidationFailedWithErrors\\(\\) has an unused variable \\$ignoreCase\\.$#"
+			count: 1
+			path: ../../../tests/ApiDefinitionTest.php
+
+		-
+			message: "#^Function assertValidationFailedWithErrors\\(\\) has an unused variable \\$checkForObjectIdentity\\.$#"
+			count: 1
+			path: ../../../tests/ApiDefinitionTest.php
+
+		-
+			message: "#^Cannot call method getMethod\\(\\) on resource\\.$#"
+			count: 5
+			path: ../../../tests/JsonSchemaTest.php
+
+		-
+			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with string will always evaluate to false\\.$#"
+			count: 1
+			path: ../../../tests/MethodTest.php
+
+		-
+			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with Raml\\\\Response will always evaluate to false\\.$#"
+			count: 3
+			path: ../../../tests/MethodTest.php
+
+		-
+			message: "#^Cannot call method getBaseUriParameters\\(\\) on resource\\.$#"
+			count: 2
+			path: ../../../tests/NamedParameters/BaseUriParameterTest.php
+
+		-
+			message: "#^Cannot call method getMethod\\(\\) on resource\\.$#"
+			count: 1
+			path: ../../../tests/NamedParameters/BaseUriParameterTest.php
+
+		-
+			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertInstanceOf\\(\\) with 'Raml\\\\\\\\Resource' and resource will always evaluate to false\\.$#"
+			count: 1
+			path: ../../../tests/NamedParameters/MultipleTypesTest.php
+
+		-
+			message: "#^Cannot call method getMethod\\(\\) on resource\\.$#"
+			count: 1
+			path: ../../../tests/NamedParameters/MultipleTypesTest.php
+
+		-
+			message: "#^Cannot call method getMethod\\(\\) on resource\\.$#"
+			count: 1
+			path: ../../../tests/NamedParameters/ParameterTypesTest.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:getParameter\\(\\)\\.$#"
+			count: 24
+			path: ../../../tests/NamedParameters/ParameterTypesTest.php
+
+		-
+			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertInstanceOf\\(\\) with 'Raml\\\\\\\\Resource' and resource will always evaluate to false\\.$#"
+			count: 4
+			path: ../../../tests/NamedParameters/UriParameterTest.php
+
+		-
+			message: "#^Cannot call method getMethod\\(\\) on resource\\.$#"
+			count: 4
+			path: ../../../tests/NamedParameters/WebFormBodyTest.php
+
+		-
+			message: "#^Cannot call method getMethod\\(\\) on resource\\.$#"
+			count: 41
+			path: ../../../tests/ParseTest.php
+
+		-
+			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertInstanceOf\\(\\) with 'Raml\\\\\\\\Resource' and resource will always evaluate to false\\.$#"
+			count: 1
+			path: ../../../tests/ParseTest.php
+
+		-
+			message: "#^Cannot call method getDisplayName\\(\\) on resource\\.$#"
+			count: 4
+			path: ../../../tests/ParseTest.php
+
+		-
+			message: "#^Cannot call method getMethods\\(\\) on resource\\.$#"
+			count: 2
+			path: ../../../tests/ParseTest.php
+
+		-
+			message: "#^Cannot call method getDescription\\(\\) on resource\\.$#"
+			count: 6
+			path: ../../../tests/ParseTest.php
+
+		-
+			message: "#^Cannot call method getResources\\(\\) on resource\\.$#"
+			count: 6
+			path: ../../../tests/ParseTest.php
+
+		-
+			message: "#^Cannot call method getParentResource\\(\\) on resource\\.$#"
+			count: 3
+			path: ../../../tests/ParseTest.php
+
+		-
+			message: "#^Cannot call method getTraits\\(\\) on resource\\.$#"
+			count: 1
+			path: ../../../tests/ParseTest.php
+
+		-
+			message: "#^Cannot call method getMethod\\(\\) on resource\\.$#"
+			count: 11
+			path: ../../../tests/TypeTest.php
+
+		-
+			message: "#^Cannot call method getMethod\\(\\) on resource\\.$#"
+			count: 4
+			path: ../../../tests/Types/ArrayTest.php
+
+		-
+			message: "#^Cannot call method getMethod\\(\\) on resource\\.$#"
+			count: 2
+			path: ../../../tests/Types/ObjectTypeTest.php
+
+		-
+			message: "#^Cannot call method getMethod\\(\\) on resource\\.$#"
+			count: 6
+			path: ../../../tests/Types/UnionTypeTest.php
+
+		-
+			message: "#^Cannot call method getMethod\\(\\) on resource\\.$#"
+			count: 2
+			path: ../../../tests/XmlSchemaTest.php
+
+		-
+			message: "#^Method PHPUnit\\\\Framework\\\\Assert\\:\\:assertContainsEquals\\(\\) invoked with 5 parameters, 2\\-3 required\\.$#"
+			count: 1
+			path: ../../../tests/XmlSchemaTest.php
+
+		-
+			message: "#^Function assertValidationFailedWithErrors\\(\\) has an unused variable \\$message\\.$#"
+			count: 1
+			path: ../../../tests/XmlSchemaTest.php
+
+		-
+			message: "#^Function assertValidationFailedWithErrors\\(\\) has an unused variable \\$ignoreCase\\.$#"
+			count: 1
+			path: ../../../tests/XmlSchemaTest.php
+
+		-
+			message: "#^Function assertValidationFailedWithErrors\\(\\) has an unused variable \\$checkObjectIdentity\\.$#"
+			count: 1
+			path: ../../../tests/XmlSchemaTest.php
+

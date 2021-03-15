@@ -40,7 +40,7 @@ class TraitParserHelper
             ')' .
             ')?>>/',
             static function ($matches) use ($values) {
-                $transformer = isset($matches[3]) ? $matches[3] : '';
+                $transformer = $matches[3] ?? '';
                 switch ($transformer) {
                     case 'singularize':
                         return Inflect::singularize($values[$matches[1]]);
@@ -51,11 +51,11 @@ class TraitParserHelper
 
                         break;
                     case 'uppercase':
-                        return \strtoupper($values[$matches[1]]);
+                        return \mb_strtoupper($values[$matches[1]]);
 
                         break;
                     case 'lowercase':
-                        return \strtolower($values[$matches[1]]);
+                        return \mb_strtolower($values[$matches[1]]);
 
                         break;
                     case 'lowercamelcase':

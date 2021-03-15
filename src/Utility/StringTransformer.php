@@ -7,32 +7,32 @@ class StringTransformer
     /**
      * @var int
      */
-    const LOWER_CAMEL_CASE = 1;
+    public const LOWER_CAMEL_CASE = 1;
 
     /**
      * @var int
      */
-    const LOWER_HYPHEN_CASE = 2;
+    public const LOWER_HYPHEN_CASE = 2;
 
     /**
      * @var int
      */
-    const LOWER_UNDERSCORE_CASE = 4;
+    public const LOWER_UNDERSCORE_CASE = 4;
 
     /**
      * @var int
      */
-    const UPPER_CAMEL_CASE = 8;
+    public const UPPER_CAMEL_CASE = 8;
 
     /**
      * @var int
      */
-    const UPPER_HYPHEN_CASE = 16;
+    public const UPPER_HYPHEN_CASE = 16;
 
     /**
      * @var int
      */
-    const UPPER_UNDERSCORE_CASE = 32;
+    public const UPPER_UNDERSCORE_CASE = 32;
 
     /**
      * @var string[]
@@ -90,13 +90,13 @@ class StringTransformer
                 // lowercase functions
                 case self::LOWER_HYPHEN_CASE:
                 case self::LOWER_UNDERSCORE_CASE:
-                    $newString .= $delimiter . \strtolower($split[$i]);
+                    $newString .= $delimiter . \mb_strtolower($split[$i]);
 
                     break;
                 // uppercase functions
                 case self::UPPER_UNDERSCORE_CASE:
                 case self::UPPER_HYPHEN_CASE:
-                    $newString .= $delimiter . \strtoupper($split[$i]);
+                    $newString .= $delimiter . \mb_strtoupper($split[$i]);
 
                     break;
             }

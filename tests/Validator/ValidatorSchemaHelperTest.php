@@ -15,7 +15,7 @@ class ValidatorSchemaHelperTest extends TestCase
      */
     private $parser;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->parser = new Parser();
@@ -35,7 +35,7 @@ class ValidatorSchemaHelperTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowExceptionIfResourceNotFound()
+    public function shouldThrowExceptionIfResourceNotFound(): void
     {
         $this->expectException(ValidatorSchemaException::class);
         $this->expectExceptionMessage('/images was not found');
@@ -47,7 +47,7 @@ class ValidatorSchemaHelperTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowExceptionIfMethodNotFound()
+    public function shouldThrowExceptionIfMethodNotFound(): void
     {
         $this->expectException(ValidatorSchemaException::class);
         $this->expectExceptionMessage('POST /songs was not found');
@@ -59,7 +59,7 @@ class ValidatorSchemaHelperTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowExceptionIfResponseNotFound()
+    public function shouldThrowExceptionIfResponseNotFound(): void
     {
         $this->expectException(ValidatorSchemaException::class);
         $this->expectExceptionMessage('GET /songs with status code 300 was not found');
@@ -71,7 +71,7 @@ class ValidatorSchemaHelperTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowExceptionIfResponseBodyNotFound()
+    public function shouldThrowExceptionIfResponseBodyNotFound(): void
     {
         $this->expectException(ValidatorSchemaException::class);
         $this->expectExceptionMessage('GET /songs with content type application/xml was not found');
@@ -83,7 +83,7 @@ class ValidatorSchemaHelperTest extends TestCase
     /**
      * @test
      */
-    public function shouldCorrectlyReturnResponseBodyWithCompositeMediaType()
+    public function shouldCorrectlyReturnResponseBodyWithCompositeMediaType(): void
     {
         $helper = $this->getHelperForSchema(__DIR__ . '/../fixture/validator/requestBody.raml');
         $actual = $helper->getRequestBody('post', '/songs', 'application/json;charset=UTF-8');
@@ -93,7 +93,7 @@ class ValidatorSchemaHelperTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowExceptionIfResponseBodyIsNotABodyObject()
+    public function shouldThrowExceptionIfResponseBodyIsNotABodyObject(): void
     {
         $this->expectException(ValidatorSchemaException::class);
         $this->expectExceptionMessage('not a Body object');
@@ -105,15 +105,15 @@ class ValidatorSchemaHelperTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetRequiredOrAllQueryParameters()
+    public function shouldGetRequiredOrAllQueryParameters(): void
     {
         $helper = $this->getHelperForSchema(__DIR__ . '/../fixture/validator/queryParameters.raml');
 
         $allParameters = $helper->getQueryParameters('get', '/songs');
         $requiredParameters = $helper->getQueryParameters('get', '/songs', true);
 
-        $this->assertInternalType('array', $allParameters);
-        $this->assertInternalType('array', $requiredParameters);
+        $this->assertIsArray($allParameters);
+        $this->assertIsArray($requiredParameters);
 
         $this->assertSame(['required_number', 'optional_long_string'], \array_keys($allParameters));
         $this->assertSame(['required_number'], \array_keys($requiredParameters));
@@ -122,7 +122,7 @@ class ValidatorSchemaHelperTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetRequestBody()
+    public function shouldGetRequestBody(): void
     {
         $helper = $this->getHelperForSchema(__DIR__ . '/../fixture/validator/requestBody.raml');
         $actual = $helper->getRequestBody('post', '/songs', 'application/json');
@@ -134,7 +134,7 @@ class ValidatorSchemaHelperTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetResponse()
+    public function shouldGetResponse(): void
     {
         $helper = $this->getHelperForSchema(__DIR__ . '/../fixture/validator/requestBody.raml');
         $actual = $helper->getRequestBody('post', '/songs', 'application/json');
@@ -146,7 +146,7 @@ class ValidatorSchemaHelperTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetResponseBody()
+    public function shouldGetResponseBody(): void
     {
         $helper = $this->getHelperForSchema(__DIR__ . '/../fixture/validator/responseBody.raml');
         $actual = $helper->getResponseBody('post', '/songs', 200, 'application/json');
@@ -158,15 +158,15 @@ class ValidatorSchemaHelperTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetResponseHeaders()
+    public function shouldGetResponseHeaders(): void
     {
         $helper = $this->getHelperForSchema(__DIR__ . '/../fixture/validator/responseHeaders.raml');
 
         $allHeaders = $helper->getResponseHeaders('get', '/songs', 200);
         $requiredHeaders = $helper->getResponseHeaders('get', '/songs', 200, true);
 
-        $this->assertInternalType('array', $allHeaders);
-        $this->assertInternalType('array', $requiredHeaders);
+        $this->assertIsArray($allHeaders);
+        $this->assertIsArray($requiredHeaders);
 
         $this->assertSame(['X-Required-Header', 'X-Long-Optional-Header'], \array_keys($allHeaders));
         $this->assertSame(['X-Required-Header'], \array_keys($requiredHeaders));

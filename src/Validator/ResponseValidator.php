@@ -20,7 +20,7 @@ class ResponseValidator
         $this->schemaHelper = $schema;
     }
 
-    public function validateResponse(RequestInterface $request, ResponseInterface $response)
+    public function validateResponse(RequestInterface $request, ResponseInterface $response): void
     {
         $this->assertNoMissingHeaders($request, $response);
         $this->assertValidHeaders($request, $response);
@@ -30,7 +30,7 @@ class ResponseValidator
     /**
      * @throws ValidatorResponseException
      */
-    private function assertNoMissingHeaders(RequestInterface $request, ResponseInterface $response)
+    private function assertNoMissingHeaders(RequestInterface $request, ResponseInterface $response): void
     {
         $method = $request->getMethod();
         $path = $request->getUri()->getPath();
@@ -45,7 +45,7 @@ class ResponseValidator
 
         throw new ValidatorResponseException(\sprintf(
             'Missing response headers required by the schema for %s %s with status code %s: %s',
-            \strtoupper($method),
+            \mb_strtoupper($method),
             $path,
             $statusCode,
             $this->getNamedParametersAsString($missingHeaders)
@@ -55,7 +55,7 @@ class ResponseValidator
     /**
      * @throws ValidatorResponseException
      */
-    private function assertValidHeaders(RequestInterface $request, ResponseInterface $response)
+    private function assertValidHeaders(RequestInterface $request, ResponseInterface $response): void
     {
         $method = $request->getMethod();
         $path = $request->getUri()->getPath();
@@ -78,7 +78,7 @@ class ResponseValidator
                                 'with status code %s does not match schema: %s',
                             $key,
                             $headerValue,
-                            \strtoupper($method),
+                            \mb_strtoupper($method),
                             $path,
                             $statusCode,
                             $exception->getMessage()
@@ -94,7 +94,7 @@ class ResponseValidator
     /**
      * @throws ValidatorResponseException
      */
-    private function assertValidBody(RequestInterface $request, ResponseInterface $response)
+    private function assertValidBody(RequestInterface $request, ResponseInterface $response): void
     {
         $method = $request->getMethod();
         $path = $request->getUri()->getPath();
@@ -109,7 +109,7 @@ class ResponseValidator
         if ($schemaBody->getValidator()->getErrors()) {
             $message = \sprintf(
                 'Response body for %s %s with content type %s and status code %s does not match schema: %s',
-                \strtoupper($method),
+                \mb_strtoupper($method),
                 $path,
                 $contentType,
                 $statusCode,
