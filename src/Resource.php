@@ -169,10 +169,10 @@ class Resource implements ArrayInstantiationInterface
         }
 
         foreach ($data as $key => $value) {
-            if (\strpos($key, '/') === 0) {
+            if (\mb_strpos($key, '/') === 0) {
                 $value = $value ?: [];
                 if (isset($data['uriParameters'])) {
-                    $currentParameters = isset($value['uriParameters']) ? $value['uriParameters'] : [];
+                    $currentParameters = $value['uriParameters'] ?? [];
                     $value['uriParameters'] = \array_merge($currentParameters, $data['uriParameters']);
                 }
                 $resource->addResource(
@@ -182,7 +182,7 @@ class Resource implements ArrayInstantiationInterface
                         $apiDefinition
                     )
                 );
-            } elseif (\in_array(\strtoupper($key), Method::$validMethods, true)) {
+            } elseif (\in_array(\mb_strtoupper($key), Method::$validMethods, true)) {
                 $resource->addMethod(
                     Method::createFromArray(
                         $key,
@@ -216,11 +216,11 @@ class Resource implements ArrayInstantiationInterface
         foreach ($this->getUriParameters() as $uriParameter) {
             $matchPattern = $uriParameter->getMatchPattern();
             if ('^' === $matchPattern[0]) {
-                $matchPattern = \substr($matchPattern, 1);
+                $matchPattern = \mb_substr($matchPattern, 1);
             }
 
-            if ('$' === \substr($matchPattern, -1)) {
-                $matchPattern = \substr($matchPattern, 0, -1);
+            if ('$' === \mb_substr($matchPattern, -1)) {
+                $matchPattern = \mb_substr($matchPattern, 0, -1);
             }
 
             $regexUri = \str_replace(
@@ -273,7 +273,7 @@ class Resource implements ArrayInstantiationInterface
      *
      * @param string $displayName
      */
-    public function setDisplayName($displayName)
+    public function setDisplayName($displayName): void
     {
         $this->displayName = $displayName;
     }
@@ -295,7 +295,7 @@ class Resource implements ArrayInstantiationInterface
      *
      * @param string $description
      */
-    public function setDescription($description)
+    public function setDescription($description): void
     {
         $this->description = $description;
     }
@@ -314,9 +314,8 @@ class Resource implements ArrayInstantiationInterface
 
     /**
      * Add a new base uri parameter
-     *
      */
-    public function addBaseUriParameter(NamedParameter $namedParameter)
+    public function addBaseUriParameter(NamedParameter $namedParameter): void
     {
         $this->baseUriParameters[$namedParameter->getKey()] = $namedParameter;
     }
@@ -335,9 +334,8 @@ class Resource implements ArrayInstantiationInterface
 
     /**
      * Add a new uri parameter
-     *
      */
-    public function addUriParameter(NamedParameter $namedParameter)
+    public function addUriParameter(NamedParameter $namedParameter): void
     {
         $this->uriParameters[$namedParameter->getKey()] = $namedParameter;
     }
@@ -356,9 +354,8 @@ class Resource implements ArrayInstantiationInterface
 
     /**
      * Add a resource
-     *
      */
-    public function addResource(self $resource)
+    public function addResource(self $resource): void
     {
         $this->subResources[$resource->getUri()] = $resource;
         $resource->setParentResource($this);
@@ -368,9 +365,8 @@ class Resource implements ArrayInstantiationInterface
 
     /**
      * Add a method
-     *
      */
-    public function addMethod(Method $method)
+    public function addMethod(Method $method): void
     {
         $this->methods[$method->getType()] = $method;
 
@@ -401,7 +397,7 @@ class Resource implements ArrayInstantiationInterface
      */
     public function getMethod($method)
     {
-        $method = \strtoupper($method);
+        $method = \mb_strtoupper($method);
 
         if (!isset($this->methods[$method])) {
             throw new \Exception('Method not found');
@@ -420,7 +416,7 @@ class Resource implements ArrayInstantiationInterface
         return $this->securitySchemes;
     }
 
-    public function addSecurityScheme(SecurityScheme $securityScheme)
+    public function addSecurityScheme(SecurityScheme $securityScheme): void
     {
         $this->securitySchemes[$securityScheme->getKey()] = $securityScheme;
     }

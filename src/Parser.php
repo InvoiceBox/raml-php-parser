@@ -144,9 +144,8 @@ class Parser
 
     /**
      * Set the parse configuration
-     *
      */
-    public function setConfiguration(ParseConfiguration $config)
+    public function setConfiguration(ParseConfiguration $config): void
     {
         $this->configuration = $config;
     }
@@ -155,9 +154,8 @@ class Parser
 
     /**
      * Add a new schema parser
-     *
      */
-    public function addSchemaParser(SchemaParserInterface $schemaParser)
+    public function addSchemaParser(SchemaParserInterface $schemaParser): void
     {
         foreach ($schemaParser->getCompatibleContentTypes() as $contentType) {
             $this->schemaParsers[$contentType] = $schemaParser;
@@ -166,18 +164,16 @@ class Parser
 
     /**
      * Add a new type
-     *
      */
-    public function addType(TypeInterface $type)
+    public function addType(TypeInterface $type): void
     {
         $this->types[$type->getName()] = $type;
     }
 
     /**
      * Add a new security scheme
-     *
      */
-    public function addSecuritySettingParser(SecuritySettingsParserInterface $securitySettingsParser)
+    public function addSecuritySettingParser(SecuritySettingsParserInterface $securitySettingsParser): void
     {
         foreach ($securitySettingsParser->getCompatibleTypes() as $contentType) {
             $this->securitySettingsParsers[$contentType] = $securitySettingsParser;
@@ -186,9 +182,8 @@ class Parser
 
     /**
      * Add a file loader
-     *
      */
-    public function addFileLoader(FileLoaderInterface $fileLoader)
+    public function addFileLoader(FileLoaderInterface $fileLoader): void
     {
         foreach ($fileLoader->getValidExtensions() as $extension) {
             $this->fileLoaders[$extension] = $fileLoader;
@@ -269,7 +264,7 @@ class Parser
                 }
             }
             foreach ($ramlData as $key => $value) {
-                if (0 === \strpos($key, '/')) {
+                if (0 === \mb_strpos($key, '/')) {
                     if (isset($schemas)) {
                         $value = $this->replaceSchemas($value, $schemas);
                     }
@@ -379,7 +374,7 @@ class Parser
         $securitySchemes = [];
 
         foreach ($schemesArray as $key => $securitySchemeData) {
-            $parser = isset($this->securitySettingsParsers['*']) ? $this->securitySettingsParsers['*'] : false;
+            $parser = $this->securitySettingsParsers['*'] ?? false;
 
             $securitySchemes[$key] = $securitySchemeData;
             $securityScheme = $securitySchemes[$key];
@@ -394,7 +389,7 @@ class Parser
 
             // If we found a parser, create it's settings object.
             if ($parser) {
-                $settings = isset($securityScheme['settings']) ? $securityScheme['settings'] : [];
+                $settings = $securityScheme['settings'] ?? [];
                 $securitySchemes[$key]['settings'] = $parser->createSecuritySettings($settings);
             }
         }
@@ -553,8 +548,8 @@ class Parser
             }
 
             foreach ($ramlData as $key => $value) {
-                if (\strpos($key, '/') === 0) {
-                    $name = (isset($value['displayName'])) ? $value['displayName'] : \substr($key, 1);
+                if (\mb_strpos($key, '/') === 0) {
+                    $name = (isset($value['displayName'])) ? $value['displayName'] : \mb_substr($key, 1);
                     $ramlData[$key] = $this->replaceTraits($value, $keyedTraits, $key, $name);
                 }
             }
@@ -585,7 +580,7 @@ class Parser
             throw new \RuntimeException('RAML file appears to be empty');
         }
 
-        if (\strpos($header, '#%RAML') === 0) {
+        if (\mb_strpos($header, '#%RAML') === 0) {
             // @todo extract the raml version and do something with it
 
             $data = $this->includeAndParseFiles(
@@ -638,7 +633,7 @@ class Parser
 
         // Prevent LFI directory traversal attacks
         if (!$this->configuration->isDirectoryTraversalAllowed() &&
-            \substr($fullPath, 0, \strlen($rootDir)) !== $rootDir
+            \mb_substr($fullPath, 0, \mb_strlen($rootDir)) !== $rootDir
         ) {
             throw new FileNotFoundException($fileName);
         }
@@ -698,7 +693,7 @@ class Parser
             return $this->loadAndParseFile($structure->getValue(), $rootDir);
         }
 
-        if (\strpos($structure, '!include') === 0) {
+        if (\mb_strpos($structure, '!include') === 0) {
             return $this->loadAndParseFile(\str_replace('!include ', '', $structure), $rootDir);
         }
 
@@ -769,14 +764,14 @@ class Parser
      */
     private function replaceTypes($raml, $types, $path, $name, $parentKey = null)
     {
-        if (\strpos($path, '/') !== 0 || !\is_array($raml)) {
+        if (\mb_strpos($path, '/') !== 0 || !\is_array($raml)) {
             return $raml;
         }
 
         $newArray = [];
 
         foreach ($raml as $key => $value) {
-            if ($key === 'type' && \strpos($parentKey, '/') === 0) {
+            if ($key === 'type' && \mb_strpos($parentKey, '/') === 0) {
                 $type = [];
 
                 $typeVariables = ['resourcePath' => $path, 'resourcePathName' => $name];
@@ -792,8 +787,8 @@ class Parser
                 $newArray = \array_replace_recursive($newArray, $this->replaceTypes($type, $types, $path, $name, $key));
             } else {
                 $newName = $name;
-                if (\strpos($key, '/') === 0 && !\preg_match('/^\/\{.+\}$/', $key)) {
-                    $newName = (isset($value['displayName'])) ? $value['displayName'] : \substr($key, 1);
+                if (\mb_strpos($key, '/') === 0 && !\preg_match('/^\/\{.+\}$/', $key)) {
+                    $newName = (isset($value['displayName'])) ? $value['displayName'] : \mb_substr($key, 1);
                 }
                 $newValue = $this->replaceTypes($value, $types, $path, $newName, $key);
                 $newValue = $this->applyOptionalResourceTypeMethod($key, $newArray, $newValue, $parentKey);
@@ -828,8 +823,8 @@ class Parser
     {
         $optionalKey = $key . '?';
         if (
-            \strpos($parentKey, '/') === 0
-            && \in_array(\strtoupper($key), Method::$validMethods, true)
+            \mb_strpos($parentKey, '/') === 0
+            && \in_array(\mb_strtoupper($key), Method::$validMethods, true)
             && isset($source[$optionalKey])
         ) {
             $value = \is_array($value) ? \array_replace_recursive($source[$optionalKey], $value) : $source[$optionalKey];

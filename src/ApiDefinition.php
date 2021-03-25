@@ -25,12 +25,12 @@ class ApiDefinition implements ArrayInstantiationInterface
     /**
      * @var string
      */
-    const PROTOCOL_HTTP = 'HTTP';
+    public const PROTOCOL_HTTP = 'HTTP';
 
     /**
      * @var string
      */
-    const PROTOCOL_HTTPS = 'HTTPS';
+    public const PROTOCOL_HTTPS = 'HTTPS';
 
     /**
      * The API Title (required)
@@ -299,7 +299,7 @@ class ApiDefinition implements ArrayInstantiationInterface
 
         foreach ($data as $resourceName => $resource) {
             // check if actually a resource
-            if (\strpos($resourceName, '/') === 0) {
+            if (\mb_strpos($resourceName, '/') === 0) {
                 $apiDefinition->addResource(
                     Resource::createFromArray(
                         $apiDefinition->getUrlPrefix() . $resourceName,
@@ -423,12 +423,12 @@ class ApiDefinition implements ArrayInstantiationInterface
         return ($this->version) ? \str_replace('{version}', $this->version, $this->baseUri) : $this->baseUri;
     }
 
-    public function setBaseUri($baseUrl)
+    public function setBaseUri($baseUrl): void
     {
         $this->baseUri = $baseUrl;
 
         if (!$this->protocols) {
-            $protocol = \strtoupper(\parse_url($this->baseUri, PHP_URL_SCHEME));
+            $protocol = \mb_strtoupper(\parse_url($this->baseUri, PHP_URL_SCHEME));
             if (!empty($protocol)) {
                 $this->protocols = [$protocol];
             }
@@ -447,9 +447,8 @@ class ApiDefinition implements ArrayInstantiationInterface
 
     /**
      * Add a new base uri parameter
-     *
      */
-    public function addBaseUriParameter(NamedParameter $namedParameter)
+    public function addBaseUriParameter(NamedParameter $namedParameter): void
     {
         $this->baseUriParameters[$namedParameter->getKey()] = $namedParameter;
     }
@@ -490,7 +489,7 @@ class ApiDefinition implements ArrayInstantiationInterface
      * @param string $protocol
      * @throws \InvalidArgumentException
      */
-    private function addProtocol($protocol)
+    private function addProtocol($protocol): void
     {
         if (!\in_array($protocol, [self::PROTOCOL_HTTP, self::PROTOCOL_HTTPS], true)) {
             throw new InvalidProtocolException(\sprintf('"%s" is not a valid protocol', $protocol));
@@ -516,7 +515,7 @@ class ApiDefinition implements ArrayInstantiationInterface
      *
      * @param string $defaultMediaType
      */
-    public function setDefaultMediaType($defaultMediaType)
+    public function setDefaultMediaType($defaultMediaType): void
     {
         if (!\in_array($defaultMediaType, $this->defaultMediaTypes, true)) {
             return;
@@ -540,7 +539,7 @@ class ApiDefinition implements ArrayInstantiationInterface
      * @param string $collectionName
      * @param array  $schemas
      */
-    public function addSchemaCollection($collectionName, $schemas)
+    public function addSchemaCollection($collectionName, $schemas): void
     {
         $this->schemaCollections[$collectionName] = [];
 
@@ -558,7 +557,7 @@ class ApiDefinition implements ArrayInstantiationInterface
      *
      * @throws InvalidSchemaDefinitionException
      */
-    private function addSchema($collectionName, $schemaName, $schema)
+    private function addSchema($collectionName, $schemaName, $schema): void
     {
         if (!\is_string($schema) && !$schema instanceof SchemaDefinitionInterface) {
             throw new InvalidSchemaDefinitionException();
@@ -583,7 +582,7 @@ class ApiDefinition implements ArrayInstantiationInterface
      * @param string $title
      * @param string $documentation
      */
-    public function addDocumentation($title, $documentation)
+    public function addDocumentation($title, $documentation): void
     {
         $this->documentationList[$title] = $documentation;
     }
@@ -643,11 +642,11 @@ class ApiDefinition implements ArrayInstantiationInterface
                 return \forward_static_call_array([$className, 'createFromArray'], [$name, $definition]);
             }
             // if $type contains a '|' we can safely assume it's a combination of types (union)
-            if (\strpos($type, '|') !== false) {
+            if (\mb_strpos($type, '|') !== false) {
                 return UnionType::createFromArray($name, $definition);
             }
             // if $type contains a '[]' it means we have an array with a item restriction
-            if (\strpos($type, '[]') !== false) {
+            if (\mb_strpos($type, '[]') !== false) {
                 return ArrayType::createFromArray($name, $definition);
             }
             // no standard type found so this must be a reference to a custom defined type
@@ -672,9 +671,8 @@ class ApiDefinition implements ArrayInstantiationInterface
 
     /**
      * Add data type
-     *
      */
-    public function addType(TypeInterface $type)
+    public function addType(TypeInterface $type): void
     {
         $this->types->add($type);
     }
@@ -691,9 +689,8 @@ class ApiDefinition implements ArrayInstantiationInterface
 
     /**
      * Add trait
-     *
      */
-    public function addTrait(TraitDefinition $trait)
+    public function addTrait(TraitDefinition $trait): void
     {
         $this->traits->add($trait);
     }
@@ -720,18 +717,16 @@ class ApiDefinition implements ArrayInstantiationInterface
 
     /**
      * Add an additional resource
-     *
      */
-    public function addResource(Resource $resource)
+    public function addResource(Resource $resource): void
     {
         $this->resources[$resource->getUri()] = $resource;
     }
 
     /**
      * Removes Resource from ApiDefinition
-     *
      */
-    public function removeResource(Resource $resource)
+    public function removeResource(Resource $resource): void
     {
         if (!isset($this->resources[$resource->getUri()])) {
             return;
@@ -753,9 +748,8 @@ class ApiDefinition implements ArrayInstantiationInterface
 
     /**
      * Add an additional security scheme
-     *
      */
-    public function addSecurityScheme(SecurityScheme $securityScheme)
+    public function addSecurityScheme(SecurityScheme $securityScheme): void
     {
         $this->securitySchemes[$securityScheme->getKey()] = $securityScheme;
     }
@@ -772,9 +766,8 @@ class ApiDefinition implements ArrayInstantiationInterface
 
     /**
      * Add an additional security scheme to the list of schemes the whole API is secured by
-     *
      */
-    public function addSecuredBy(SecurityScheme $securityScheme)
+    public function addSecuredBy(SecurityScheme $securityScheme): void
     {
         $this->securedBy[$securityScheme->getKey()] = $securityScheme;
     }
@@ -815,9 +808,9 @@ class ApiDefinition implements ArrayInstantiationInterface
         return $all;
     }
 
-    private function setProtocolsFromBaseUri()
+    private function setProtocolsFromBaseUri(): void
     {
-        $schema = \strtoupper(\parse_url($this->baseUri, PHP_URL_SCHEME));
+        $schema = \mb_strtoupper(\parse_url($this->baseUri, PHP_URL_SCHEME));
 
         $this->protocols = empty($schema) ? [self::PROTOCOL_HTTPS, self::PROTOCOL_HTTP] : [$schema];
     }

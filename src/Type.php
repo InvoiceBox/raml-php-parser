@@ -30,7 +30,6 @@ class Type implements ArrayInstantiationInterface, TypeInterface
     private $name;
 
     /**
-     *
      * @var string
      */
     protected $type;
@@ -83,9 +82,9 @@ class Type implements ArrayInstantiationInterface, TypeInterface
         if (isset($data['enum'])) {
             $class->setEnum($data['enum']);
         }
-        if (\substr($name, -1) === '?') {
+        if (\mb_substr($name, -1) === '?') {
             $class->setRequired(false);
-            $class->setName(\substr($name, 0, -1));
+            $class->setName(\mb_substr($name, 0, -1));
         }
         $class->setDefinition($data);
 
@@ -160,7 +159,7 @@ class Type implements ArrayInstantiationInterface, TypeInterface
      *
      * @param array $data Definition data of type.
      */
-    public function setDefinition(array $data = [])
+    public function setDefinition(array $data = []): void
     {
         $this->definition = $data;
     }
@@ -207,7 +206,7 @@ class Type implements ArrayInstantiationInterface, TypeInterface
         return $this->enum;
     }
 
-    public function setEnum(array $enum)
+    public function setEnum(array $enum): void
     {
         $this->enum = $enum;
     }
@@ -323,7 +322,7 @@ class Type implements ArrayInstantiationInterface, TypeInterface
     /**
      * {@inheritdoc}
      */
-    public function validate($value)
+    public function validate($value): void
     {
         $this->errors = [];
         if ($this->required && !isset($value)) {

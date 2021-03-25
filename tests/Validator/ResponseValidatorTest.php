@@ -2,6 +2,7 @@
 
 namespace Raml\Tests\Validator;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -22,21 +23,21 @@ class ResponseValidatorTest extends TestCase
     private $parser;
 
     /**
-     * @var RequestInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var RequestInterface&MockObject
      */
     private $request;
 
     /**
-     * @var ResponseInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var ResponseInterface&MockObject
      */
     private $response;
 
     /**
-     * @var UriInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var UriInterface&MockObject
      */
     private $uri;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->parser = new Parser();
@@ -62,7 +63,7 @@ class ResponseValidatorTest extends TestCase
     /**
      * @test
      */
-    public function shouldCatchMissingHeaders()
+    public function shouldCatchMissingHeaders(): void
     {
         $this->request->method('getMethod')->willReturn('get');
         $this->uri->method('getPath')->willReturn('/songs');
@@ -79,7 +80,7 @@ class ResponseValidatorTest extends TestCase
     /**
      * @test
      */
-    public function shouldCatchInvalidHeaders()
+    public function shouldCatchInvalidHeaders(): void
     {
         $headers = [
             'X-Required-Header' => ['123456'],
@@ -107,7 +108,7 @@ class ResponseValidatorTest extends TestCase
     /**
      * @test
      */
-    public function shouldPassOnEmptyBodyIfNotRequired()
+    public function shouldPassOnEmptyBodyIfNotRequired(): void
     {
         $json = '';
 
@@ -141,7 +142,7 @@ class ResponseValidatorTest extends TestCase
     /**
      * @test
      */
-    public function shouldCatchInvalidBody()
+    public function shouldCatchInvalidBody(): void
     {
         $json = '{}';
 
@@ -174,9 +175,8 @@ class ResponseValidatorTest extends TestCase
 
     /**
      * @test
-     * @doesNotPerformAssertions
      */
-    public function shouldParseContentTypeHeader()
+    public function shouldParseContentTypeHeader(): void
     {
         $json = '{}';
 

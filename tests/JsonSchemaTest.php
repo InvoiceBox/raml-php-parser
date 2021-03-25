@@ -13,7 +13,7 @@ class JsonSchemaTest extends TestCase
      */
     private $parser;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->parser = new Parser();
@@ -22,7 +22,7 @@ class JsonSchemaTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnJsonString()
+    public function shouldReturnJsonString(): void
     {
         $simpleRaml = $this->parser->parse(__DIR__ . '/fixture/simple.raml');
         $resource = $simpleRaml->getResourceByUri('/songs');
@@ -32,14 +32,14 @@ class JsonSchemaTest extends TestCase
         $schema = $body->getSchema();
 
         $schemaString = (string) $schema;
-        $this->assertInternalType('string', $schemaString);
+        $this->assertIsString($schemaString);
         $this->assertEquals('A list of songs', \json_decode($schemaString)->description);
     }
 
     /**
      * @test
      */
-    public function shouldCorrectlyValidateCorrectJson()
+    public function shouldCorrectlyValidateCorrectJson(): void
     {
         $simpleRaml = $this->parser->parse(__DIR__ . '/fixture/simple.raml');
         $resource = $simpleRaml->getResourceByUri('/songs');
@@ -55,7 +55,7 @@ class JsonSchemaTest extends TestCase
     /**
      * @test
      */
-    public function shouldCorrectlyValidateIncorrectJson()
+    public function shouldCorrectlyValidateIncorrectJson(): void
     {
         $simpleRaml = $this->parser->parse(__DIR__ . '/fixture/simple.raml');
         $resource = $simpleRaml->getResourceByUri('/songs');
@@ -71,7 +71,7 @@ class JsonSchemaTest extends TestCase
     /**
      * @test
      */
-    public function shouldCorrectlyValidateInvalidJson()
+    public function shouldCorrectlyValidateInvalidJson(): void
     {
         $simpleRaml = $this->parser->parse(__DIR__ . '/fixture/simple.raml');
         $resource = $simpleRaml->getResourceByUri('/songs');
@@ -87,7 +87,7 @@ class JsonSchemaTest extends TestCase
     /**
      * @test
      */
-    public function shouldCorrectlyValidateJsonAsArray()
+    public function shouldCorrectlyValidateJsonAsArray(): void
     {
         $simpleRaml = $this->parser->parse(__DIR__ . '/fixture/simple.raml');
         $resource = $simpleRaml->getResourceByUri('/songs/{songId}');
