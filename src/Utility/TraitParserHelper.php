@@ -29,6 +29,10 @@ class TraitParserHelper
      */
     private static function applyFunctions($trait, array $values)
     {
+        if (empty($trait)) {
+            return ;
+        }
+
         $variables = \implode('|', \array_keys($values));
 
         return \preg_replace_callback(

@@ -58,7 +58,7 @@ class TraitCollection implements \Iterator
     /**
      * @return TraitDefinition
      */
-    public function current()
+    public function current():mixed
     {
         if ($this->valid()) {
             return $this->collection[$this->position];
@@ -70,7 +70,7 @@ class TraitCollection implements \Iterator
     /**
      * @return int
      */
-    public function key()
+    public function key():mixed
     {
         return $this->position;
     }
@@ -88,7 +88,7 @@ class TraitCollection implements \Iterator
     /**
      * @return bool
      */
-    public function valid()
+    public function valid(): bool
     {
         return isset($this->collection[$this->position]);
     }

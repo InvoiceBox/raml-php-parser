@@ -428,7 +428,8 @@ class ApiDefinition implements ArrayInstantiationInterface
         $this->baseUri = $baseUrl;
 
         if (!$this->protocols) {
-            $protocol = \mb_strtoupper(\parse_url($this->baseUri, PHP_URL_SCHEME));
+            $url = \parse_url($this->baseUri, PHP_URL_SCHEME);
+            $url && $protocol = \mb_strtoupper($url);
             if (!empty($protocol)) {
                 $this->protocols = [$protocol];
             }
@@ -810,7 +811,12 @@ class ApiDefinition implements ArrayInstantiationInterface
 
     private function setProtocolsFromBaseUri(): void
     {
-        $schema = \mb_strtoupper(\parse_url($this->baseUri, PHP_URL_SCHEME));
+        if (empty($this->baseUri))  {
+            return ;
+        }
+
+        $url = \parse_url($this->baseUri, PHP_URL_SCHEME);
+        $url && $schema = \mb_strtoupper($url);
 
         $this->protocols = empty($schema) ? [self::PROTOCOL_HTTPS, self::PROTOCOL_HTTP] : [$schema];
     }

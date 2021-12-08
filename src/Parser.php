@@ -693,7 +693,7 @@ class Parser
             return $this->loadAndParseFile($structure->getValue(), $rootDir);
         }
 
-        if (\mb_strpos($structure, '!include') === 0) {
+        if ($structure && \str_contains($structure, '!include')) {
             return $this->loadAndParseFile(\str_replace('!include ', '', $structure), $rootDir);
         }
 

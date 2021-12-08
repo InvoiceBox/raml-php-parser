@@ -128,6 +128,10 @@ class RequestValidator
      */
     private function getRequestParameters(RequestInterface $request)
     {
+        if (empty($request->getUri()->getQuery())) {
+            return [];
+        }
+
         \parse_str($request->getUri()->getQuery(), $requestParameters);
 
         return $requestParameters;
